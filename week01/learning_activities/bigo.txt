@@ -1,0 +1,52 @@
+1
+
+static void DoSomething(int n)  -   1
+{
+  for (int i = 0; i < n; i++)   -   2
+  {
+    Console.WriteLine(n * n);   -   3
+  }
+
+  for (i = n; i > 0; i--)   -   -   4
+  {
+    Console.WriteLine(n * n * n);   5
+  }
+}
+
+2,4; loops of n (2), not nested
+O(n)
+
+2
+
+static void DoSomethingElse(List<string> words) 1
+{
+  for (int i = 0; i < words.Count; i++) -   -   2
+  {
+    for (int j = 0; j < words.Count; j++)   -   3
+    {
+      Console.WriteLine(".");   -   -   -   -   4
+    }
+  }
+}
+
+2,3; loops of n, 3 nested in 2
+O(n^2)
+
+3
+
+static void DoAnotherThing(List<string> words)  -   -   -   -   -   1
+{
+  string sentence = "The quick brown fox jumps over the lazy dog";  2
+  for (int i = 0; i < words.Count; i++) -   -   -   -   -   -   -   3
+  {
+    for (int j = 0; j < sentence.Length; j++)   -   -   -   -   -   4
+    {
+      Console.WriteLine(".");   -   -   -   -   -   -   -   -   -   5
+    }
+  }
+}
+
+3; loop of variable length i
+4; loop of pixed length
+3; loop of n
+O(n)
