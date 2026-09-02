@@ -1,4 +1,7 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
+
+using System.Diagnostics;
 
 public static class Algorithms {
     public static void Run() {
@@ -42,6 +45,7 @@ public static class Algorithms {
 
         return count;
     }
+    // O(n)
 
     /// <summary>
     /// The count variable is keeping track of the amount
@@ -57,6 +61,7 @@ public static class Algorithms {
 
         return count;
     }
+    // O(n^2)
 
     /// <summary>
     /// The count variable is keeping track of the amount
@@ -76,4 +81,6 @@ public static class Algorithms {
 
         return count;
     }
+    // O(log n)
+    // whats with the html/xml comment syntax?
 }
