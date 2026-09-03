@@ -34,7 +34,7 @@ public static class Search {
     /// <param name="target">The number we're looking for</param>
     private static int SearchSorted1(int[] data, int target) {
         var count = 0;
-        foreach (var item in data) {
+        foreach (var item in data) { // n
             count += 1;
             if (item == target)
                 return count; // Found it
