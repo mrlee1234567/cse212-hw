@@ -13,7 +13,8 @@ public class PersonQueue
     /// <param name="person">The person to add</param>
     public void Enqueue(Person person)
     {
-        _queue.Insert(0, person);
+        // _queue.Insert(0, person);
+        _queue.Add(person);//changed from insert at 0 to add (adds to the end)
     }
 
     public Person Dequeue()

@@ -18,6 +18,7 @@ public class TakingTurnsQueue
     /// </summary>
     /// <param name="name">Name of the person</param>
     /// <param name="turns">Number of turns remaining</param>
+    /// seriously, whats with the xml syntax?
     public void AddPerson(string name, int turns)
     {
         var person = new Person(name, turns);
@@ -32,6 +33,7 @@ public class TakingTurnsQueue
     /// if the queue is empty.
     /// </summary>
     public Person GetNextPerson()
+    // finite repetition failed, add player midway failed, forever zero failed, forever negative failed
     {
         if (_people.IsEmpty())
         {
@@ -40,7 +42,11 @@ public class TakingTurnsQueue
         else
         {
             Person person = _people.Dequeue();
-            if (person.Turns > 1)
+            if (person.Turns <= 0)//added check if it is negative or zero
+            {
+                _people.Enqueue(person);
+            }
+            else if (person.Turns > 1)
             {
                 person.Turns -= 1;
                 _people.Enqueue(person);
