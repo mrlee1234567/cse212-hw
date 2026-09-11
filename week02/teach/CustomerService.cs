@@ -2,6 +2,16 @@
 /// Maintain a Customer Service Queue.  Allows new customers to be 
 /// added and allows customers to be serviced.
 /// </summary>
+
+/*
+
+The user shall specify the maximum size of the Customer Service Queue when it is created. If the size is invalid (less than or equal to 0) then the size shall default to 10.
+The AddNewCustomer method shall enqueue a new customer into the queue.
+If the queue is full when trying to add a customer, then an error message will be displayed.
+The ServeCustomer function shall dequeue the next customer from the queue and display the details.
+If the queue is empty when trying to serve a customer, then an error message will be displayed.
+
+*/
 public class CustomerService {
     public static void Run() {
         // Example code to see what's in the customer service queue:
@@ -11,24 +21,45 @@ public class CustomerService {
         // Test Cases
 
         // Test 1
-        // Scenario: 
-        // Expected Result: 
+        // Scenario: input value less than or equal to 0
+        // Expected Result: queue of 10
         Console.WriteLine("Test 1");
+        CustomerService cs = new CustomerService(0);
+        Console.WriteLine(cs.ToString());
 
-        // Defect(s) Found: 
+        // Defect(s) Found: none
 
         Console.WriteLine("=================");
 
         // Test 2
-        // Scenario: 
-        // Expected Result: 
+        // Scenario: arbitrary length of a queue with customers added to, then customer is served
+        // Expected Result: a queue of n with a length of #customers, then a queue with no customers
         Console.WriteLine("Test 2");
+        cs = new CustomerService(5);
+        Console.WriteLine(cs.ToString());
+        cs.AddNewCustomer();
+        Console.WriteLine(cs.ToString());
+        cs.ServeCustomer();
+        Console.WriteLine(cs.ToString());
 
-        // Defect(s) Found: 
+        // Defect(s) Found: serve customer removes customer from queue before it can return it
 
         Console.WriteLine("=================");
 
         // Add more Test Cases As Needed Below
+
+        // Test 3
+        // Scenario: arbitrary length of a queue with customers added to until above maximum capacity
+        // Expected Result: an error
+        Console.WriteLine("Test 3");
+        cs = new CustomerService(1);
+        Console.WriteLine(cs.ToString());
+        cs.AddNewCustomer();
+        Console.WriteLine(cs.ToString());
+        cs.AddNewCustomer();
+        Console.WriteLine(cs.ToString());
+
+        // Defect(s) Found: does not call an error; increases beyond the maximum size!
     }
 
     private readonly List<Customer> _queue = new();
@@ -67,7 +98,7 @@ public class CustomerService {
     /// </summary>
     private void AddNewCustomer() {
         // Verify there is room in the service queue
-        if (_queue.Count > _maxSize) {
+        if (_queue.Count >= _maxSize) {//only was called if it was GREATER than the max size, fixed that
             Console.WriteLine("Maximum Number of Customers in Queue.");
             return;
         }
@@ -87,9 +118,12 @@ public class CustomerService {
     /// <summary>
     /// Dequeue the next customer and display the information.
     /// </summary>
-    private void ServeCustomer() {
-        _queue.RemoveAt(0);
+    private void ServeCustomer() {//removes from queue too early
+        // _queue.RemoveAt(0);
+        // var customer = _queue[0];
+        // Console.WriteLine(customer);
         var customer = _queue[0];
+        _queue.RemoveAt(0);
         Console.WriteLine(customer);
     }
 
