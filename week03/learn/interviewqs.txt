@@ -1,0 +1,53 @@
+"Write code to find the first time in a string when a letter is duplicated."
+
+What are possible scenarios to consider? (For example, think of a few strings that you
+would want to try with your solution.)
+
+what is considered "first time?" first time any character is repeated, or first time for each?
+how is the data to be presented?
+do we count different cases as different characters?
+"the quick brown fox jumps over the lazy dog"
+"spaalone babagoosegoodies"
+"HAha TOad"
+
+What are some data structures that may be useful? And what would their performance be?
+
+int - performance of 1, the raw location of the first repetition
+string - performance of O(n) while searching through each character of the string, the input string / resultant character
+list (dynamic array) - performance of O(1) when adding, and, depending on how implemented, anywhere from O(n) to O(log n) for searching, saves what characters have been encountered thusfar
+dictionary (map) - performance of O(1) when adding and checking if a key exsists, the locations of the first of each repetition. the character and its position in the string is only added on the second instance of occurance, tested if the character doesnt exsist in the dictionary but does exist in the list. unless only the first instance of a repeat is required, this is the return
+
+What are the boundary conditions that you should consider for this problem?
+
+what should the program do when it recievs a blank string?
+what should the program do if it recieves no duplicates?
+how should the program present its return data?
+
+Outline a possible solution.
+
+for the sample string "the quick brown fox jumps over the lazy dog"
+
+if the rsample is blank, return the sample or an empty dictionary
+if the result is a dictionary of each first duplicate, for each letter i in the sample check if it is a key in dictionary d, if it isnt, check list l
+otherwise, for each letter i in the sample, check if it exists in list l
+if it doesnt, add it to the list
+if it does, then let the index of i be n
+if the result is only the index of the first duplicate, return n
+otherwise, add to d at key i the value n, resulting in {i , n}
+finally, return d
+if it finds no duplicates, return an empty dictionary or the integer -1
+
+for the given sample string:
+[t,h,e, ,q,u,i,c,k,b,r,o,w,n,f,x,j,m,p,s,v,l,a,z,y,d,g]
+' ' - 9
+o - 17
+u - 21
+e - 28
+r - 29
+t - 31
+h - 32
+when the return only needs to be the first index, the result is 9
+when the return is a dictionary of all duplicates:
+{
+    {" ",9}, {"o",17}, {"u",21}, {"e",28}, {"r",29}, {"t",31}, {"h",32}
+}
