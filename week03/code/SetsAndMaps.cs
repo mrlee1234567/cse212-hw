@@ -1,4 +1,6 @@
+using System.Collections;
 using System.Text.Json;
+using Microsoft.VisualBasic;
 
 public static class SetsAndMaps
 {
@@ -22,7 +24,65 @@ public static class SetsAndMaps
     public static string[] FindPairs(string[] words)
     {
         // TODO Problem 1 - ADD YOUR CODE HERE
-        return [];
+        Dictionary<string, string> dic = new Dictionary<string, string>();
+        // List<string> res = new List<string>();
+        // HashSet<string> hs = new HashSet<string>();
+        HashSet<string> hs = new HashSet<string>();
+        foreach (string i in words)
+        {
+            // test scenario: ["am", "at", "ma", "if", "fi"]
+            /*
+            
+            i=am, iq=ma
+            i!=iq
+            iq not in dic
+            dic={am:ma}
+
+            i=at, iq=ta
+            i!=iq
+            iq not in dic
+            dic={am:ma,at:ta}
+            i=ma, iq=am
+            i!=iq
+            iq in dict
+            res=[am ma]
+
+            i=if, iq=fi
+            i!=iq
+            iq not in dic
+            dic={am:ma,at:ta,if:fi}
+
+            i=fi, iq=if
+            i!=iq
+            iq in dic
+            res=[am ma,if fi]
+
+            */
+            // char[] sary = i.ToArray();
+            // sary.Reverse();
+            // string iq = new string(sary);
+            string iq = Strings.StrReverse(i);
+            
+            
+            // Console.WriteLine($"{i} - {iq}");
+            // int hsn = hs.Count;
+            // hs.Add(i);
+            // hs.Add(iq);
+            if (dic.ContainsKey(iq)/* || i == iq*/)
+            {
+                hs.Add($"{i} & {iq}");
+            }
+            else/* if (i != iq)*/
+            {
+                if (!dic.ContainsKey(i))
+                {
+                    dic.Add(i, iq);
+                }
+                
+            }
+            
+        }
+        return hs.ToArray();
     }
 
     /// <summary>
@@ -43,6 +103,16 @@ public static class SetsAndMaps
         {
             var fields = line.Split(",");
             // TODO Problem 2 - ADD YOUR CODE HERE
+            // line 4 (ind 3) is degrees
+            string dg = fields[3];
+            if (degrees.ContainsKey(dg))
+            {
+                degrees[dg]++;
+            }
+            else
+            {
+                degrees[dg] = 1;
+            }
         }
 
         return degrees;
@@ -67,7 +137,82 @@ public static class SetsAndMaps
     public static bool IsAnagram(string word1, string word2)
     {
         // TODO Problem 3 - ADD YOUR CODE HERE
-        return false;
+        if (word1.Contains(' '))
+        {
+            Console.WriteLine($"w1spc {word1}");
+            word1 = word1.Replace(" ", string.Empty);
+        }
+        if (word2.Contains(' '))
+        {
+            Console.WriteLine($"w2spc {word2}");
+            word2 = word2.Replace(" ", string.Empty);
+        }
+        Console.WriteLine($"{word1} {word2}");
+        if (word1.Length != word2.Length)
+        {
+            Console.WriteLine("no wrong len");
+            return false;
+        }
+        word1 = word1.ToUpper();
+        word2 = word2.ToUpper();
+        Console.WriteLine($"{word1} {word2}");
+        HashSet<char> l1 = new HashSet<char>();
+        HashSet<char> l2 = new HashSet<char>();
+        Dictionary<char,int> d1 = new Dictionary<char, int>();
+        Dictionary<char,int> d2 = new Dictionary<char, int>(); 
+        foreach (char i in word1)
+        {
+            if (i != ' ')
+            {
+                l1.Add(i);
+                if (d1.ContainsKey(i))
+                {
+                    d1[i]++;
+                }
+                else
+                {
+                    d1[i] = 1;
+                }
+            }
+        }
+        foreach (char i in word2)
+        {
+            l2.Add(i);
+            if (d2.ContainsKey(i))
+            {
+                d2[i]++;
+            }
+            else
+            {
+                d2[i] = 1;
+            }
+        }
+        if (l1.Count != l2.Count)
+        {
+            Console.WriteLine("no wrong amount of chars");
+            return false;
+        }
+        foreach (char i in l1)
+        {
+            int c1 = d1[i];
+            int c2;
+            if (d2.ContainsKey(i))
+            {
+                c2 = d2[i];
+            }
+            else
+            {
+                Console.WriteLine($"no no char {i} in w2");
+                return false;
+            }
+            if (c1 != c2)
+            {
+                Console.WriteLine($"no the char {i} is {c1} in w1 and {c2} in w2");
+                return false;
+            }
+        }
+        Console.WriteLine("yes\n");
+        return true;
     }
 
     /// <summary>
@@ -86,9 +231,9 @@ public static class SetsAndMaps
     /// </summary>
     public static string[] EarthquakeDailySummary()
     {
-        const string uri = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson";
+        const string url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson";
         using var client = new HttpClient();
-        using var getRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
+        using var getRequestMessage = new HttpRequestMessage(HttpMethod.Get, url);
         using var jsonStream = client.Send(getRequestMessage).Content.ReadAsStream();
         using var reader = new StreamReader(jsonStream);
         var json = reader.ReadToEnd();
@@ -96,11 +241,35 @@ public static class SetsAndMaps
 
         var featureCollection = JsonSerializer.Deserialize<FeatureCollection>(json, options);
 
+        List<string> res = new List<string>();
+        foreach (Feat i in featureCollection.Features)//thisone was 197
+        {
+            string iq = $"{i.Properties.Place} - Mag {i.Properties.Mag}";
+            res.Add(iq);
+        }
+
         // TODO Problem 5:
         // 1. Add code in FeatureCollection.cs to describe the JSON using classes and properties 
         // on those classes so that the call to Deserialize above works properly.
         // 2. Add code below to create a string out each place a earthquake has happened today and its magitude.
         // 3. Return an array of these string descriptions.
-        return [];
+        return res.ToArray();
+    }
+    // created to reverse strings easier for me
+
+    // errors: 10 - 11 - 10 - 9 - 7 - 3 - 2 - 0!
+    public static string Invert(string input)
+    {
+        Stack s = new Stack();
+        foreach (char i in input)
+        {
+            s.Push(i);
+        }
+        string res = "";
+        for (int i = 0; i < s.Count; i++)
+        {
+            res += s.Pop();
+        }
+        return res;
     }
 }

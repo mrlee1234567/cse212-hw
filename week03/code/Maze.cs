@@ -25,6 +25,13 @@ public class Maze
         _mazeMap = mazeMap;
     }
 
+    private int TrueMod(int input, int mod)
+    {
+        int res = ((input % mod) + mod) % mod;
+        return res;
+        // it bothers me that % doesnt do modulus in c#
+    }
+
     // TODO Problem 4 - ADD YOUR CODE HERE
     /// <summary>
     /// Check to see if you can move left.  If you can, then move.  If you
@@ -32,7 +39,35 @@ public class Maze
     /// </summary>
     public void MoveLeft()
     {
+        /// (x,y) : [left, right, up, down]
+        bool[] moves = _mazeMap[(_currX,_currY)];
+        if (moves[0])
+        {
+            _currX -= 1;
+        }
+        else
+        {
+            throw new InvalidOperationException("Can't go that way!");
+        }
         // FILL IN CODE
+        // int nx = _currX - 1;
+        // if (nx == 0)
+        // {
+        //     throw new InvalidOperationException("Can't go that way!");
+        // }
+        // ValueTuple<int,int> vt = new ValueTuple<int,int>(nx,_currY);
+        //     if (!_mazeMap[vt][3])
+        //     {
+        //         throw new InvalidOperationException("Can't go that way!");
+        //     }
+        // foreach (bool i in _mazeMap[vt])
+        // {
+        //     if (!i)
+        //     {
+        //         throw new InvalidOperationException("Can't go that way!");
+        //     }
+        // }
+        // _currX = nx;
     }
 
     /// <summary>
@@ -42,6 +77,34 @@ public class Maze
     public void MoveRight()
     {
         // FILL IN CODE
+        /// (x,y) : [left, right, up, down]
+        bool[] moves = _mazeMap[(_currX, _currY)];
+        if (moves[1])
+        {
+            _currX += 1;
+        }
+        else
+        {
+            throw new InvalidOperationException("Can't go that way!");
+        }
+        // int nx = _currX + 1;
+        // if (nx == 6)
+        // {
+        //     throw new InvalidOperationException("Can't go that way!");
+        // }
+        // ValueTuple<int, int> vt = new ValueTuple<int, int>(nx, _currY);
+        // if (!_mazeMap[vt][3])
+        // {
+        //     throw new InvalidOperationException("Can't go that way!");
+        // }
+        // foreach (bool i in _mazeMap[vt])
+        // {
+        //     if (!i)
+        //     {
+        //         throw new InvalidOperationException("Can't go that way!");
+        //     }
+        // }
+        // _currX = nx;
     }
 
     /// <summary>
@@ -51,6 +114,34 @@ public class Maze
     public void MoveUp()
     {
         // FILL IN CODE
+        /// (x,y) : [left, right, up, down]
+        bool[] moves = _mazeMap[(_currX, _currY)];
+        if (moves[2])
+        {
+            _currY -= 1;
+        }
+        else
+        {
+            throw new InvalidOperationException("Can't go that way!");
+        }
+        // int ny = _currY - 1;
+        // if (ny == 0)
+        // {
+        //     throw new InvalidOperationException("Can't go that way!");
+        // }
+        // ValueTuple<int, int> vt = new ValueTuple<int, int>(_currX,ny);
+        // if (!_mazeMap[vt][3])
+        // {
+        //     throw new InvalidOperationException("Can't go that way!");
+        // }
+        // foreach (bool i in _mazeMap[vt])
+        // {
+        //     if (!i)
+        //     {
+        //         throw new InvalidOperationException("Can't go that way!");
+        //     }
+        // }
+        // _currY = ny;
     }
 
     /// <summary>
@@ -60,6 +151,34 @@ public class Maze
     public void MoveDown()
     {
         // FILL IN CODE
+        /// (x,y) : [left, right, up, down]
+        bool[] moves = _mazeMap[(_currX, _currY)];
+        if (moves[3])
+        {
+            _currY += 1;
+        }
+        else
+        {
+            throw new InvalidOperationException("Can't go that way!");
+        }
+        // int ny = _currY + 1;
+        // if (ny == 7)
+        // {
+        //     throw new InvalidOperationException("Can't go that way!");
+        // }
+        // ValueTuple<int, int> vt = new ValueTuple<int, int>(_currX, ny);
+        // if (!_mazeMap[vt][3])
+        // {
+        //     throw new InvalidOperationException("Can't go that way!");
+        // }
+        // foreach (bool i in _mazeMap[vt])
+        // {
+        //     if (!i)
+        //     {
+        //         throw new InvalidOperationException("Can't go that way!");
+        //     }
+        // }
+        // _currY = ny;
     }
 
     public string GetStatus()
