@@ -19,9 +19,9 @@
             for (var j = 0; j < text.Length; ++j) {
                 // Don't want to compare to yourself ... that will always result in a match
                 if (i != j && text[i] == text[j])
-                    return false;
+                    return false;//this is iterating through each one more tiemes than it shuld
             }
-        }
+        }//add each letter to set then compare the size of the set to the size of the string
 
         return true;
     }

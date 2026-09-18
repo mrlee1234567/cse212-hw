@@ -29,5 +29,25 @@
     /// <param name="numbers">array of integers</param>
     private static void DisplaySumPairs(int[] numbers) {
         // TODO Problem 2 - This should print pairs of numbers in the given array
+        //check each one ant sub it from 10, then compare it to a map, if it exists, return it, otherwise, add it
+        Dictionary<int, int> psr = new Dictionary<int, int>();
+        HashSet<string> fpr = new HashSet<string>();
+        foreach (int i in numbers)
+        {
+            int df = 10 - i;
+            if (psr.ContainsKey(df))
+            {
+                fpr.Add($"{i} {df}");
+            }
+            else
+            {
+                psr.Add(i,df);
+            }
+
+        }
+        foreach (string i in fpr)
+        {
+            Console.WriteLine(i);
+        }
     }
 }

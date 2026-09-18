@@ -37,7 +37,7 @@ public class BasketballSolution
         // Console.WriteLine($"Players: {{{string.Join(", ", players)}}}");
 
         var topPlayers = players.ToArray();
-        Array.Sort(topPlayers, (p1, p2) => p2.Value - p1.Value);
+        Array.Sort(topPlayers, (p1, p2) => p2.Value - p1.Value);//see, if the 310 class had had an opening, id have thought of that
 
         Console.WriteLine();
         for (var i = 0; i < 10; ++i)
