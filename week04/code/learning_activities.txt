@@ -1,0 +1,40 @@
+head=A=B=C=D=tail
+
+head=X=A=B=C=D=tail
+
+head=X=A=B=Y=C=D=tail
+
+head=X=A=B=Y=C=tail
+
+head=X=A=Y=C=tail
+
+A - fHtB
+B - fAtC
+C - fBtD
+D - fCtT
+
+X - fHtA
+A - fXtB
+B - fAtC
+C - fBtD
+D - fCtT
+
+X - fHtA
+A - fXtB
+B - fAtY
+Y - fBtC
+C - fYtD
+D - fCtT
+
+X - fHtA
+A - fXtB
+B - fAtY
+Y - fBtC
+C - fYtT
+
+X - fHtA
+A - fXtY
+Y - fAtC
+C - fYtT
+
+explaination: f means "from" t means "to" H means "head" T means "tail" and = means double link
