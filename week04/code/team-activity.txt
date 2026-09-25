@@ -1,0 +1,13 @@
+honestly, the team activity this week was confusing, i dont know what it was trying to say
+
+1 - What is the difference between a linked list and a dynamic array?
+
+a linked list is a series of objects with references to the next object and the previous object stored in each object location, whereas a dynamic array is an array with a fixed amount of bytes allocated that increases as more items are added to the list, and as items are added, each one must be shifted up a space in the list
+
+2 - What is one of the strengths of a linked list?
+
+a linked list does not need to allocate wasted memory as more items are added and subtracted, meaning they can theoretically be more economical data-wise than dynamic arrays
+
+3 - What is one of the drawbacks of a linked list?
+
+linked lists cannot be indexed normally, and searching for specific items requires iterating through the entire list until it is found, meaning that using a linked lise is slower than a dynamic array
