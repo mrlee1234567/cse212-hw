@@ -15,8 +15,56 @@ public static class Recursion
     public static int SumSquaresRecursive(int n)
     {
         // TODO Start Problem 1
-        return 0;
+        // im going to do something, im going to try what i did in the learning activity, so im going to implement an overload where the recursion will take place
+        // i was going to, then i realized it needs to be the sum of SQUARES... which cant really be done that way...
+        if (n == 0)
+        {
+            return 0;
+        }
+        int nsq = (int)Math.Pow(n,2);
+        int sm = SumSquaresRecursive(n - 1);
+        return sm + nsq;
     }
+
+    // public static int SumSquaresRecursive(int n, Dictionary<int,int> mem)
+    // {
+    //     if (n == 0 || n == 1)
+    //     {
+    //         return n;
+    //     }
+    //     else if (mem.ContainsKey(n))
+    //     {
+    //         return mem[n];
+    //     }
+    //     decimal hn = n / 2;
+    //     int n1 = (int)Math.Floor(hn);
+    //     int n2 = (int)Math.Ceiling(hn);
+    //     int s1;
+    //     int s2;
+    //     if (mem.ContainsKey(n1))
+    //     {
+    //         s1 = mem[n1];
+    //     }
+    //     else
+    //     {
+    //         s1 = SumSquaresRecursive(n1,mem);
+    //     }
+    //     if (mem.ContainsKey(n2))
+    //     {
+    //         s2 = mem[n2];
+    //     }
+    //     else
+    //     {
+    //         s2 = SumSquaresRecursive(n2,mem);
+    //     }
+    //     int sm = s1 + s2;
+    //     if (!mem.ContainsKey(n))
+    //     {
+    //         mem.Add(n,sm);
+    //     }
+    //     // if this particular solution doesnt work, then i can implement the "intended" solution
+    //     return sm;
+    // }
 
     /// <summary>
     /// #############
@@ -40,6 +88,24 @@ public static class Recursion
     public static void PermutationsChoose(List<string> results, string letters, int size, string word = "")
     {
         // TODO Start Problem 2
+        // double permut = letters.Count()! / (letters.Count()! - size);
+        char[] lary = letters.ToArray();
+        foreach (char i in lary)
+        {
+            if (!word.Contains(i))
+            {
+                string iq = $"{word}{i}";
+                if (iq.Length < size)
+                {
+                    PermutationsChoose(results, letters, size, iq);
+                }
+                else if (!results.Contains(iq))
+                {
+                    results.Add(iq);
+                }
+            }
+            
+        }
     }
 
     /// <summary>
@@ -87,7 +153,7 @@ public static class Recursion
     public static decimal CountWaysToClimb(int s, Dictionary<int, decimal>? remember = null)
     {
         // Base Cases
-        if (s == 0)
+        if (s <= 0)
             return 0;
         if (s == 1)
             return 1;
@@ -97,9 +163,18 @@ public static class Recursion
             return 4;
 
         // TODO Start Problem 3
+        if (remember == null)
+        {
+            remember = new Dictionary<int, decimal>();
+        }
+        else if (remember.ContainsKey(s))
+        {
+            return remember[s];
+        }
 
         // Solve using recursion
-        decimal ways = CountWaysToClimb(s - 1) + CountWaysToClimb(s - 2) + CountWaysToClimb(s - 3);
+        decimal ways = CountWaysToClimb(s - 1, remember) + CountWaysToClimb(s - 2, remember) + CountWaysToClimb(s - 3, remember);
+        remember.Add(s,ways);
         return ways;
     }
 
@@ -119,6 +194,19 @@ public static class Recursion
     public static void WildcardBinary(string pattern, List<string> results)
     {
         // TODO Start Problem 4
+        // this uses 1,0,and *, 1 and 0 are the options, * is the wildcard
+        if (pattern.Contains('*'))
+        {
+            int psin = pattern.IndexOf('*');
+            string p1 = $"{pattern[..psin]}1{pattern[(psin + 1)..]}";
+            string p2 = $"{pattern[..psin]}0{pattern[(psin + 1)..]}";
+            WildcardBinary(p1,results);
+            WildcardBinary(p2,results);
+        }
+        else if (!results.Contains(pattern))
+        {
+            results.Add(pattern);
+        }
     }
 
     /// <summary>
@@ -137,7 +225,112 @@ public static class Recursion
 
         // TODO Start Problem 5
         // ADD CODE HERE
+        currPath.Add((x,y));
+        if (maze.IsEnd(x, y))
+        {
+            results.Add(currPath.AsString());
+            // Console.WriteLine(currPath.AsString());
+            return;
+        }
+        int leftX = x - 1;
+        int rightX = x + 1;
+        int upY = y - 1;
+        int downY = y + 1;
+        bool u = false;
+        bool d = false;
+        bool l = false;
+        bool r = false;
+        int nvm = 0;
+        if (maze.IsValidMove(currPath, x, upY))
+        {
+            u = true;
+            nvm++;
+        }
+        if (maze.IsValidMove(currPath, x, downY))
+        {
+            d = true;
+            nvm++;
+        }
+        if (maze.IsValidMove(currPath, leftX, y))
+        {
+            l = true;
+            nvm++;
+        }
+        if (maze.IsValidMove(currPath, rightX, y))
+        {
+            r = true;
+            nvm++;
+        }
+
+        if (u)
+        {
+            // up
+            List<ValueTuple<int, int>> upat;
+            if (nvm > 1)
+            {
+                upat = ClonePath(currPath);
+                // if im not wrong, this will copy the list so that it can be searched deeper
+            }
+            else
+            {
+                upat = currPath;
+            }
+            SolveMaze(results,maze,x,upY,upat);
+        }
+        if (d)
+        {
+            // down
+            List<ValueTuple<int, int>> dpat;
+            if (nvm > 1)
+            {
+                dpat = ClonePath(currPath);
+            }
+            else
+            {
+                dpat = currPath;
+            }
+            SolveMaze(results,maze,x,downY,dpat);
+        }
+        if (l)
+        {
+            // left
+            List<ValueTuple<int, int>> lpat;
+            if (nvm > 1)
+            {
+                lpat = ClonePath(currPath);
+            }
+            else
+            {
+                lpat = currPath;
+            }
+            SolveMaze(results,maze,leftX,y,lpat);
+        }
+        if (r)
+        {
+            // right
+            List<ValueTuple<int, int>> rpat;
+            if (nvm > 1)
+            {
+                rpat = ClonePath(currPath);
+            }
+            else
+            {
+                rpat = currPath;
+            }
+            SolveMaze(results,maze,rightX,y,rpat);
+        }
+        
 
         // results.Add(currPath.AsString()); // Use this to add your path to the results array keeping track of complete maze solutions when you find the solution.
+    }
+
+    public static List<ValueTuple<int, int>> ClonePath(List<ValueTuple<int, int>> currPath)
+    {
+        List<ValueTuple<int, int>> clonePat = new List<ValueTuple<int, int>>();
+        foreach (ValueTuple<int, int> i in currPath)
+        {
+            clonePat.Add(i);
+        }
+        return clonePat;
     }
 }
