@@ -1,0 +1,50 @@
+1 What is the "smaller version" of this problem that could be used to solve the case of adding some number such as n?
+
+if by "smaller" more efficient is implied, a more efficient summation formula is sum(n) = (n * (n + 1)) / 2, however, with recursion, the function could be epressed as sum(n) = sum(ceil(n / 2)) + sum(floor(n / 2))
+
+2 What is the base case?
+
+the base case is 0 or 1, with either returning their respective values
+
+3 Write the code of this function.
+
+note that for ease of use, n will be int
+
+int sum(int n, Dictionary<int, int> known = null)
+{
+    if (known == null)
+    {
+        Dictionary<int,int> known = new Dictionary<int,int>();
+    }
+    if (n == 1 || n == 0)
+    {
+        return n;
+    }
+    int n1 = Math.Floor(n / 2);
+    int n2 = Math.Ceiling(n / 2);
+    int s1;
+    int s2;
+    if (known.ContainsKey(n1))
+    {
+        s1 = known[n1];
+    }
+    else
+    {
+        s1 = sum(n1,known);
+        known.Add(n1,s1);
+    }
+    if (known.ContainsKey(n2))
+    {
+        s2 = known[n2];
+    }
+    else
+    {
+        s2 = sum(n2,known);
+        known.Add(n2,s2);
+    }
+    int sm = s1 + s2;
+    known.Add(n,sm);
+    return sm;
+}
+
+now, i just looked at the solution, and its much simpler, but my solution is (theoretically, hopefully) faster
