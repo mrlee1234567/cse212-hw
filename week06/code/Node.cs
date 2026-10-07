@@ -17,16 +17,20 @@ public class Node
         {
             // Insert to the left
             if (Left is null)
+            {
                 Left = new Node(value);
-            else
+            }
+            else if (Left.Data != value)
+            {
                 Left.Insert(value);
+            }
         }
         else
         {
             // Insert to the right
             if (Right is null)
                 Right = new Node(value);
-            else
+            else if (Right.Data != value)
                 Right.Insert(value);
         }
     }
@@ -34,12 +38,93 @@ public class Node
     public bool Contains(int value)
     {
         // TODO Start Problem 2
-        return false;
+        if (Data == value)
+        {
+            return true;
+        }
+        else if (value < Data)
+        {
+            if (Right is null)
+            {
+                return false;
+            }
+            else
+            {
+                return Right.Contains(value);
+            }
+        }
+        else if (value > Data)
+        {
+            if (Left is null)
+            {
+                return false;
+            }
+            else
+            {
+                return Left.Contains(value);
+            }
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public int GetHeight()
     {
         // TODO Start Problem 4
-        return 0; // Replace this line with the correct return statement(s)
+        // return 0;
+        int l = GetHeight(Left,0);
+        int r = GetHeight(Right,0);
+        int res;
+        if (l > r)
+        {
+            res = l + 1;
+        }
+        else
+        {
+            res = r + 1;
+        }
+        return res; // Replace this line with the correct return statement(s)
+    }
+
+    public int GetHeight(Node? node, int cur)
+    {
+        // overload to let me keep track of the height easier
+        if (node is null)
+        {
+            return cur;
+        }
+        else
+        {
+            int curb =cur + 1;
+            int l;
+            int r;
+            if (node.Left is null)
+            {
+                l = cur;
+            }
+            else
+            {
+                l = GetHeight(node.Left,curb);
+            }
+            if (node.Right is null)
+            {
+                r = cur;
+            }
+            else
+            {
+                r = GetHeight(node.Right,curb);
+            }
+            if (l > r)
+            {
+                return l;
+            }
+            else
+            {
+                return r;
+            }
+        }
+        // return 0;
     }
 }
