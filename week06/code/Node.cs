@@ -38,7 +38,7 @@ public class Node
     public bool Contains(int value)
     {
         // TODO Start Problem 2
-        if (Data == value)
+        /*if (Data == value)
         {
             return true;
         }
@@ -66,7 +66,23 @@ public class Node
         }
         else
         {
-            return false;
+            return true;
+        }*/
+        List<int> values = new List<int>();
+        Contains(values);
+        return values.Contains(value);
+    }
+
+    public void Contains(List<int> values)
+    {
+        values.Add(Data);
+        if (!(Left is null))
+        {
+            Left.Contains(values);
+        }
+        if (!(Right is null))
+        {
+            Right.Contains(values);
         }
     }
 
@@ -85,7 +101,7 @@ public class Node
         {
             res = r + 1;
         }
-        return res; // Replace this line with the correct return statement(s)
+        return res + 1; // Replace this line with the correct return statement(s)
     }
 
     public int GetHeight(Node? node, int cur)
